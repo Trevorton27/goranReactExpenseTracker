@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import ExpenseForm from "./components/ExpenseForm";
-import ListExpenses from "./components/ListExpenses";
+import React, { useState, useEffect } from 'react';
+import ExpenseForm from './components/ExpenseForm';
+import ExpenseList from './components/ExpenseList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
-    if (localStorage.getItem("saveExpenses")) {
-      setExpenses(JSON.parse(localStorage.getItem("saveExpenses")));
+    if (localStorage.getItem('saveExpenses')) {
+      setExpenses(JSON.parse(localStorage.getItem('saveExpenses')));
     }
   }, []);
 
   useEffect(() => {
     if (expenses) {
-      localStorage.setItem("saveExpenses", JSON.stringify(expenses));
+      localStorage.setItem('saveExpenses', JSON.stringify(expenses));
     }
   }, [expenses]);
 
@@ -22,16 +22,16 @@ const App = () => {
     setExpenses([newExpense, ...expenses]);
   };
 
-  const handleRemoveListItem = (expenseId) => {
+  const deleteRow = (expenseId) => {
     setExpenses(expenses.filter((expense) => expense.id !== expenseId));
   };
 
   return (
     <div>
-      <div className="container-md">
-        <h1 className="text-center mt-3">EXPENSE TRACKER</h1>
-        <ExpenseForm onSubmitNewExpense={handleNewExpense} />
-        <ListExpenses list={expenses} onDeleteAction={handleRemoveListItem} />
+      <div className='container-md'>
+        <h1 className='text-center mt-3'>EXPENSE TRACKER</h1>
+        <ExpenseForm handleNewExpense={handleNewExpense} />
+        <ExpenseList expenses={expenses} deleteRow={deleteRow} />
       </div>
     </div>
   );
